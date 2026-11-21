@@ -1,0 +1,38 @@
+/**
+ * Découverte — apprendre à mieux connaître l'autre, sans entretien d'embauche.
+ * Ajouter une question : l'ajouter en fin de tableau, l'identifiant est dérivé du texte.
+ */
+export const decouverte: string[] = [
+  'Qu’est-ce qui t’a fait rire cette semaine, même un peu bêtement ?',
+  'Quel est le premier détail que tu as remarqué chez moi ?',
+  'À quoi ressemble ta journée idéale, sans contrainte d’argent ni d’horaire ?',
+  'Qu’est-ce que tu fais quand tu as besoin de te retrouver seul ?',
+  'Quel petit plaisir quotidien tu n’avouerais pas si facilement ?',
+  'Quelle chanson te revient souvent en tête en ce moment ?',
+  'Qu’est-ce qui t’agace chez les gens en général, mais que tu te permets parfois ?',
+  'Tu es plutôt du matin ou du soir ? Et qu’est-ce que ça change chez toi ?',
+  'Quel compliment t’a marqué et tu n’as jamais oublié ?',
+  'Quelle est la dernière chose que tu as apprise sur toi-même ?',
+  'Si on ouvrait ton tiroir de cuisine, qu’est-ce qu’on trouverait d’inattendu ?',
+  'Quel est ton rituel avant de dormir ?',
+  'Qu’est-ce que tu regardes en premier en entrant dans une pièce ?',
+  'Quelle est ta façon préférée de passer un dimanche ?',
+  'Quel talent chez les autres t’impressionne le plus ?',
+  'Qu’est-ce que tu portes quand personne ne te voit ?',
+  'Quelle est la chose la plus ancienne que tu possèdes encore ?',
+  'Comment tu réagis quand tu es fatigué et qu’on te demande encore quelque chose ?',
+  'Quel est ton endroit préféré dans la ville où tu vis ?',
+  'Qu’est-ce qui te met de bonne humeur en moins de dix secondes ?',
+  'Quelle habitude as-tu prise de tes parents sans le vouloir ?',
+  'Quel film ou quel livre t’a vraiment marqué récemment ?',
+  'Qu’est-ce que tu commandes au restaurant par réflexe, sans même regarder la carte ?',
+  'Comment tu organises tes idées quand tu as trop de choses en tête ?',
+  'Quelle est ta peur la plus irrationnelle ?',
+  'Qu’est-ce que tu aimes faire seul, mais que tu préfères partager avec moi ?',
+  'Quel est le cadeau le plus attentionné qu’on t’ait offert ?',
+  'Quelle conversation pourrait te tenir éveillé jusqu’à trois heures du matin ?',
+  'Quelle chose simple te donne l’impression d’être chez toi ?',
+  'Qu’est-ce que tu fais mieux que la plupart des gens, sans t’en vanter ?',
+  'Quel souvenir précis associes-tu à une odeur ou à un parfum ?',
+  'Si tu pouvais changer une seule chose dans ta routine, ce serait quoi ?',
+];
