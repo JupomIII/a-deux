@@ -31,9 +31,9 @@
   left: 50%;
   z-index: 60;
   padding: 10px 16px;
-  border-radius: 8px;
+  border-radius: 10px;
   background: var(--ink);
-  color: #faf9f6;
+  color: #fdf7ec;
   font-size: 13px;
   transform: translate(-50%, -160%);
   transition: transform 0.18s var(--ease);
@@ -125,7 +125,7 @@
 }
 
 .icon-btn:hover {
-  background: rgba(28, 26, 23, 0.045);
+  background: rgba(74, 48, 30, 0.07);
   color: var(--ink);
 }
 
@@ -151,9 +151,9 @@
 .eyebrow {
   font-size: 11px;
   font-weight: 500;
-  letter-spacing: 0.14em;
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: var(--accent-deep);
 }
 
 .display {
@@ -238,11 +238,11 @@
 
 .btn--primary {
   background: var(--ink);
-  color: #fbfaf7;
+  color: #fdf7ec;
 }
 
 .btn--primary:hover:not(:disabled) {
-  background: #322d27;
+  background: #3a2c21;
 }
 
 .btn--quiet {
@@ -251,7 +251,7 @@
 }
 
 .btn--quiet:hover:not(:disabled) {
-  border-color: rgba(28, 26, 23, 0.3);
+  border-color: rgba(74, 48, 30, 0.32);
   color: var(--ink);
 }
 
@@ -330,10 +330,10 @@
 
 .resume-card {
   margin-top: clamp(32px, 5.5vw, 52px);
-  padding: clamp(20px, 3.2vw, 28px);
+  padding: clamp(22px, 3.4vw, 30px);
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
-  background: var(--surface);
+  background: var(--surface-2);
   box-shadow: var(--shadow-soft);
 }
 
@@ -392,15 +392,15 @@
   justify-content: space-between;
   gap: 6px 20px;
   padding-bottom: 14px;
-  border-bottom: 1px solid var(--line);
 }
 
 .section__title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: 1.2rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+  color: var(--ink);
 }
 
 .section__note {
@@ -410,24 +410,40 @@
 
 /* Category rows */
 
+.category-list {
+  overflow: hidden;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-soft);
+}
+
+.category-list > li + li {
+  border-top: 1px solid var(--line);
+}
+
 .category-row {
   position: relative;
   display: grid;
-  grid-template-columns: 34px minmax(0, 1fr) auto;
+  grid-template-columns: 36px minmax(0, 1fr) auto;
   align-items: center;
   gap: 14px;
-  padding: 16px 2px 20px;
-  border-bottom: 1px solid var(--line);
+  padding: 16px 16px 18px;
+  transition: background-color 0.2s var(--ease);
+}
+
+.category-row:hover {
+  background: var(--surface-2);
 }
 
 .category-row__glyph {
   display: grid;
   place-items: center;
-  width: 34px;
-  height: 34px;
-  border: 1px solid color-mix(in srgb, var(--cat) 13%, transparent);
-  border-radius: 10px;
-  background: color-mix(in srgb, var(--cat) 7%, var(--paper));
+  width: 36px;
+  height: 36px;
+  border: 1px solid color-mix(in srgb, var(--cat) 20%, transparent);
+  border-radius: 11px;
+  background: color-mix(in srgb, var(--cat) 12%, var(--surface));
   color: var(--cat);
 }
 
@@ -490,9 +506,9 @@
 
 .category-row__track {
   position: absolute;
-  right: 2px;
-  bottom: -1px;
-  left: 2px;
+  right: 16px;
+  bottom: 6px;
+  left: 16px;
   height: 2px;
 }
 
@@ -501,7 +517,7 @@
   height: 2px;
   border-radius: 2px;
   background: var(--cat);
-  opacity: 0.55;
+  opacity: 0.5;
   transition: width 0.5s var(--ease);
 }
 
@@ -582,12 +598,12 @@
 .category-header__glyph {
   display: grid;
   place-items: center;
-  width: 46px;
-  height: 46px;
+  width: 48px;
+  height: 48px;
   margin-bottom: 16px;
-  border: 1px solid color-mix(in srgb, var(--cat) 13%, transparent);
-  border-radius: 13px;
-  background: color-mix(in srgb, var(--cat) 7%, var(--paper));
+  border: 1px solid color-mix(in srgb, var(--cat) 20%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--cat) 12%, var(--surface));
   color: var(--cat);
 }
 
@@ -689,7 +705,7 @@
   width: 44px;
   height: 26px;
   border-radius: 999px;
-  background: rgba(28, 26, 23, 0.15);
+  background: rgba(74, 48, 30, 0.18);
   transition: background-color 0.2s var(--ease);
 }
 
@@ -783,8 +799,8 @@
   width: 100%;
   min-height: clamp(286px, 42dvh, 430px);
   padding: clamp(24px, 4.8vw, 44px);
-  border: 1px solid var(--line);
-  border-radius: clamp(18px, 2.6vw, 26px);
+  border: 1px solid color-mix(in srgb, var(--cat) 14%, var(--line));
+  border-radius: clamp(20px, 2.8vw, 28px);
   background: var(--surface);
   box-shadow: var(--shadow-card);
 }
@@ -832,8 +848,10 @@
 }
 
 .card-note {
-  font-size: 11.5px;
-  letter-spacing: 0.01em;
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-size: 12.5px;
+  letter-spacing: 0.005em;
   color: var(--faint);
 }
 
@@ -1011,7 +1029,7 @@
 .chip[aria-pressed="true"] {
   border-color: var(--ink);
   background: var(--ink);
-  color: #faf9f6;
+  color: #fdf7ec;
 }
 
 .history-count {
@@ -1029,11 +1047,10 @@
 .history-group__title {
   padding-bottom: 10px;
   border-bottom: 1px solid var(--line);
-  font-size: 10.5px;
-  font-weight: 500;
-  letter-spacing: 0.12em;
-  text-transform: uppercase;
-  color: var(--faint);
+  font-family: var(--font-serif);
+  font-size: 1.02rem;
+  font-weight: 400;
+  color: var(--ink-2);
 }
 
 .history-entry {
@@ -1128,11 +1145,12 @@
 }
 
 .settings-group__title {
-  font-size: 11px;
-  font-weight: 500;
-  letter-spacing: 0.13em;
-  text-transform: uppercase;
-  color: var(--muted);
+  font-family: var(--font-serif);
+  font-size: 1.12rem;
+  font-weight: 400;
+  line-height: 1.2;
+  letter-spacing: -0.005em;
+  color: var(--ink);
 }
 
 .stats {
@@ -1271,7 +1289,7 @@
 }
 
 .dialog::backdrop {
-  background: rgba(24, 22, 19, 0.36);
+  background: rgba(38, 26, 17, 0.4);
 }
 
 .dialog__panel {
@@ -1279,7 +1297,7 @@
   border: 1px solid var(--line);
   border-radius: var(--radius-lg);
   background: var(--surface);
-  box-shadow: 0 30px 80px -40px rgba(0, 0, 0, 0.45);
+  box-shadow: 0 30px 80px -40px rgba(46, 28, 16, 0.45);
 }
 
 .dialog__title {
@@ -1365,7 +1383,7 @@
   .category-row {
     grid-template-columns: 38px minmax(0, 1fr) auto;
     gap: 18px;
-    padding: 18px 4px 22px;
+    padding: 18px 16px 22px;
   }
 
   .category-row__glyph {
@@ -1456,6 +1474,11 @@
 
   .category-row__desc {
     font-size: 12px;
+  }
+
+  .category-row {
+    padding-right: 14px;
+    padding-left: 14px;
   }
 
   .session {
