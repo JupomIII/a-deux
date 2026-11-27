@@ -5,17 +5,17 @@ export function Masthead() {
   return (
     <header className="masthead">
       <a className="wordmark" href="#/" aria-label="à deux, retour à l’accueil">
-        <Mark size={27} />
+        <Mark size={25} />
         <span className="wordmark__text">à deux</span>
       </a>
 
       <nav className="masthead__nav" aria-label="Navigation principale">
         <a className="nav-link" href="#/history">
-          <History size={15} strokeWidth={1.6} aria-hidden="true" />
-          <span>Historique</span>
+          <History size={16} strokeWidth={1.6} aria-hidden="true" />
+          <span className="nav-link__label">Historique</span>
         </a>
         <a className="icon-btn" href="#/settings" aria-label="Réglages">
-          <Settings size={17} strokeWidth={1.6} aria-hidden="true" />
+          <Settings size={16} strokeWidth={1.6} aria-hidden="true" />
         </a>
       </nav>
     </header>
