@@ -11,18 +11,30 @@ export function attemptedCategories(state: ProgressState): number {
 }
 
 /**
- * The category the hero opens: the next one with cards left, never the one the
- * resume card already reopens, so the two entry points stay distinct.
+ * The category the hero opens. The target is sticky: it stays the same until
+ * that category is finished, so the button does not bounce between two themes
+ * every time a session is opened elsewhere. The resume category is the only
+ * one skipped — the resume card already reopens that session.
+ *
+ * When the target has to move on, it advances in category order instead of
+ * restarting from the top, for the same reason.
  */
-export function nextOpenCategory(
-  state: ProgressState,
-  excludeId?: CategoryId | null,
-): Category | null {
-  const open = CATEGORIES.filter(
-    (category) =>
-      category.id !== excludeId && progressForCategory(state, category).remaining > 0,
+export function heroTarget(state: ProgressState, resumeId: CategoryId | null): Category | null {
+  const isOpen = (category: Category) => progressForCategory(state, category).remaining > 0;
+
+  const remembered = state.heroCategory ? CATEGORY_BY_ID.get(state.heroCategory) : undefined;
+  if (remembered && remembered.id !== resumeId && isOpen(remembered)) return remembered;
+
+  const from = CATEGORIES.findIndex(
+    (category) => category.id === (remembered ? remembered.id : resumeId),
   );
-  return open[0] ?? null;
+
+  for (let step = 1; step <= CATEGORIES.length; step += 1) {
+    const category = CATEGORIES[(from + step) % CATEGORIES.length] as Category;
+    if (category.id !== resumeId && isOpen(category)) return category;
+  }
+
+  return null;
 }
 
 /** The category to open when nothing else is left to discover. */

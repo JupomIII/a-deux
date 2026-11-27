@@ -80,6 +80,7 @@ function normalizeV2(raw: Record<string, unknown>): ProgressState | null {
     skipped: sanitizeRecord(raw.skipped),
     lastSession: sanitizeLastSession(raw.lastSession),
     lastCategory: isCategoryId(raw.lastCategory) ? (raw.lastCategory as CategoryId) : null,
+    heroCategory: isCategoryId(raw.heroCategory) ? (raw.heroCategory as CategoryId) : null,
     preferences: sanitizePreferences(raw.preferences),
   };
 }
@@ -110,6 +111,7 @@ function fromV1(raw: Record<string, unknown>): ProgressState {
     skipped,
     lastSession,
     lastCategory,
+    heroCategory: null,
     preferences: sanitizePreferences(raw.preferences),
   };
 }

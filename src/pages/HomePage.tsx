@@ -1,8 +1,8 @@
-import type { CSSProperties } from 'react';
+import { useEffect, type CSSProperties } from 'react';
 import { ArrowRight, ArrowUpRight, ChevronRight, Shuffle } from 'lucide-react';
 import { CATEGORIES, CATEGORY_BY_ID, QUESTION_BY_ID, TOTAL_QUESTIONS } from '../data/categories';
 import { progressForCategory } from '../lib/progress';
-import { nextOpenCategory, overallCompleted, suggestedCategory } from '../lib/overview';
+import { heroTarget, overallCompleted, suggestedCategory } from '../lib/overview';
 import { categoryPath, navigate, sessionPath } from '../lib/router';
 import { plural } from '../lib/format';
 import { useProgress } from '../store/progress';
@@ -18,7 +18,7 @@ const RESUME_COPY: Record<ResumeState, { label: string; cta: string }> = {
 };
 
 export function HomePage() {
-  const { state } = useProgress();
+  const { state, actions } = useProgress();
   const completed = overallCompleted(state);
   const suggestion = suggestedCategory(state);
 
@@ -35,7 +35,8 @@ export function HomePage() {
       : null;
 
   const resumeCategoryId = lastSession?.categoryId ?? null;
-  const nextCategory = nextOpenCategory(state, resumeCategoryId);
+  const nextCategory = heroTarget(state, resumeCategoryId);
+  const nextCategoryId = nextCategory?.id ?? null;
   const nextProgress = nextCategory ? progressForCategory(state, nextCategory) : null;
   const allDone = CATEGORIES.every(
     (category) => progressForCategory(state, category).remaining === 0,
@@ -43,8 +44,16 @@ export function HomePage() {
 
   /**
    * Two entry points, two roles: the resume card reopens the exact card you left,
-   * the hero opens the next category to explore — never the same session.
+   * the hero opens the next category to explore — never the same session. The
+   * hero's category is remembered until it is finished, so it stays put
+   * instead of bouncing between two themes.
    */
+  useEffect(() => {
+    if (nextCategoryId && nextCategoryId !== state.heroCategory) {
+      actions.setHeroCategory(nextCategoryId);
+    }
+  }, [nextCategoryId, state.heroCategory, actions]);
+
   const heroHref = nextCategory ? sessionPath(nextCategory.id) : categoryPath(suggestion.id);
   const heroLabel = nextCategory
     ? completed === 0
