@@ -29,6 +29,14 @@
   --radius-md: 18px;
   --radius-lg: 24px;
   --radius-xl: 30px;
+  --radius-pill: 999px;
+
+  --tap: 44px;
+
+  --text-xs: 11px;
+  --text-sm: 12.5px;
+  --text-md: 14px;
+  --text-lg: 1.12rem;
 
   --ease: cubic-bezier(0.22, 0.61, 0.36, 1);
   --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
