@@ -149,19 +149,14 @@
     padding-top: 22px;
   }
 
-  .category-row {
-    grid-template-columns: 34px minmax(0, 1fr) auto;
-    gap: 16px;
-    padding: 13px 16px 15px;
+  .category-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
 
-  .category-row__glyph {
-    width: 34px;
-    height: 34px;
-  }
-
-  .category-row__desc {
-    -webkit-line-clamp: 1;
+  .category-tile {
+    min-height: 94px;
+    padding: 12px 14px 13px;
   }
 
   .question-card {
@@ -228,21 +223,6 @@
   .btn {
     padding: 0 16px;
     font-size: 14px;
-  }
-
-  .category-row {
-    gap: 10px;
-    padding-right: 12px;
-    padding-left: 12px;
-  }
-
-  .category-row__desc {
-    font-size: 11.5px;
-  }
-
-  .category-row__track {
-    right: 12px;
-    left: 12px;
   }
 
   .session {
