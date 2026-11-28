@@ -25,12 +25,6 @@ export interface ProgressState {
   skipped: Record<string, Stamp>;
   lastSession: LastSession | null;
   lastCategory: CategoryId | null;
-  /**
-   * Category the home hero opens. Remembered until that category is finished,
-   * so the call to action stays put instead of bouncing between themes.
-   * Additive field: saves without it stay readable (treated as null).
-   */
-  heroCategory: CategoryId | null;
   preferences: Preferences;
 }
 
@@ -46,7 +40,6 @@ export function createEmptyState(): ProgressState {
     skipped: {},
     lastSession: null,
     lastCategory: null,
-    heroCategory: null,
     preferences: { ...DEFAULT_PREFERENCES },
   };
 }
@@ -112,15 +105,6 @@ export function touchSession(
 export function visitCategory(state: ProgressState, categoryId: CategoryId): ProgressState {
   if (state.lastCategory === categoryId) return state;
   return { ...state, lastCategory: categoryId };
-}
-
-/** Pins the category the hero opens, so it does not move with every session. */
-export function setHeroCategory(
-  state: ProgressState,
-  categoryId: CategoryId | null,
-): ProgressState {
-  if (state.heroCategory === categoryId) return state;
-  return { ...state, heroCategory: categoryId };
 }
 
 export function resetProgress(state: ProgressState): ProgressState {
