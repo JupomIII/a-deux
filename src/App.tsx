@@ -88,7 +88,11 @@ function Shell() {
         </div>
       ) : null}
 
-      <main id="main" tabIndex={-1} className={isSession ? 'page page--focus' : 'page'}>
+      <main
+        id="main"
+        tabIndex={-1}
+        className={isSession ? 'page page--focus' : route.name === 'home' ? 'page page--home' : 'page'}
+      >
         {status === 'future' ? <IncompatibleScreen /> : renderPage(route)}
       </main>
 

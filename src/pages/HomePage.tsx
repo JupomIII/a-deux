@@ -1,5 +1,5 @@
-import { useState, type CSSProperties } from 'react';
-import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, Shuffle } from 'lucide-react';
+import type { CSSProperties } from 'react';
+import { ArrowRight, Shuffle } from 'lucide-react';
 import { CATEGORIES, CATEGORY_BY_ID, QUESTION_BY_ID, TOTAL_QUESTIONS } from '../data/categories';
 import { progressForCategory } from '../lib/progress';
 import { overallCompleted, suggestedCategory } from '../lib/overview';
@@ -20,7 +20,6 @@ export function HomePage() {
   const { state } = useProgress();
   const completed = overallCompleted(state);
   const suggestion = suggestedCategory(state);
-  const [categoriesOpen, setCategoriesOpen] = useState(false);
 
   const lastSession = state.lastSession;
   const resumeCategory = lastSession ? CATEGORY_BY_ID.get(lastSession.categoryId) : undefined;
@@ -37,9 +36,8 @@ export function HomePage() {
   const resumeCategoryId = lastSession?.categoryId ?? null;
 
   /**
-   * Nine categories is a lot to choose from when you just want to talk.
-   * One tap picks a category with unanswered cards, so the choice can be skipped.
-   * The resumable category stays out of the draw: that is the card's job.
+   * Five categories is still a choice when you just want to talk, so one tap
+   * can skip it. The resumable category stays out of the draw: that is the card's job.
    */
   function startRandom() {
     const open = CATEGORIES.filter(
@@ -102,113 +100,75 @@ export function HomePage() {
       ) : null}
 
       <section className="section" aria-labelledby="categories-heading">
-        <h2 className="section__title" id="categories-heading">
-          <button
-            type="button"
-            className="section__toggle"
-            aria-expanded={categoriesOpen}
-            aria-controls="categories-panel"
-            onClick={() => setCategoriesOpen((open) => !open)}
-          >
-            <span>Catégories</span>
-            <span className="section__toggle-end">
-              <span className="section__toggle-meta">
-                {categoriesOpen ? 'Refermer' : `${CATEGORIES.length} thèmes`}
+        <div className="section__head">
+          <h2 className="section__label" id="categories-heading">
+            Catégories
+          </h2>
+          <span className="section__meta">
+            <span className="tabular">{completed}</span> sur {TOTAL_QUESTIONS} questions
+          </span>
+        </div>
+
+        <ul className="category-grid">
+          {CATEGORIES.map((category) => {
+            const progress = progressForCategory(state, category);
+
+            return (
+              <li key={category.id}>
+                <a
+                  className={`category-tile${
+                    category.id === suggestion.id ? ' category-tile--suggested' : ''
+                  }`}
+                  href={categoryPath(category.id)}
+                  style={{ '--cat': category.accent } as CSSProperties}
+                >
+                  <span className="category-tile__head">
+                    <span className="category-tile__glyph">
+                      <CategoryGlyph icon={category.icon} size={15} />
+                    </span>
+                    <span className="category-tile__count">
+                      <span className="tabular">{progress.completed}</span>
+                      <span className="category-tile__total">/{progress.total}</span>
+                    </span>
+                  </span>
+
+                  <span className="category-tile__name">{category.name}</span>
+
+                  <span className="category-tile__track" aria-hidden="true">
+                    <span
+                      className="category-tile__fill"
+                      style={{ width: `${progress.ratio * 100}%` }}
+                    />
+                  </span>
+                </a>
+              </li>
+            );
+          })}
+
+          <li>
+            <button type="button" className="category-tile category-tile--draw" onClick={startRandom}>
+              <span className="category-tile__head">
+                <span className="category-tile__glyph">
+                  <Shuffle size={15} strokeWidth={1.7} aria-hidden="true" />
+                </span>
               </span>
-              <ChevronDown
-                size={16}
-                strokeWidth={1.7}
-                className="section__chevron"
-                aria-hidden="true"
-              />
-            </span>
-          </button>
-        </h2>
 
-        {categoriesOpen ? (
-          <div className="section__panel" id="categories-panel">
-            <div className="section__head">
-              <p className="section__hint">
-                Choisissez un thème, ou laissez le hasard tirer une carte.
-              </p>
-              <button type="button" className="section__action" onClick={startRandom}>
-                <Shuffle size={14} strokeWidth={1.7} aria-hidden="true" />
-                Une carte au hasard
-              </button>
-            </div>
-
-            <ul className="category-list">
-              {CATEGORIES.map((category) => {
-                const progress = progressForCategory(state, category);
-                const done = progress.total > 0 && progress.completed === progress.total;
-
-                return (
-                  <li key={category.id}>
-                    <a
-                      className="category-row"
-                      href={categoryPath(category.id)}
-                      style={{ '--cat': category.accent } as CSSProperties}
-                    >
-                      <span className="category-row__glyph" aria-hidden="true">
-                        <CategoryGlyph icon={category.icon} size={16} />
-                      </span>
-
-                      <span className="category-row__body">
-                        <span className="category-row__name">
-                          {category.name}
-                          {done ? <span className="tiny-label">Terminée</span> : null}
-                          {!done && category.id === suggestion.id ? (
-                            <span className="tiny-label">Par ici</span>
-                          ) : null}
-                        </span>
-                        <span className="category-row__desc">{category.description}</span>
-                      </span>
-
-                      <span className="category-row__meta">
-                        <span className="category-row__count">
-                          <span className="tabular">{progress.completed}</span>
-                          <span className="category-row__total">/{progress.total}</span>
-                        </span>
-                        <ChevronRight
-                          size={15}
-                          strokeWidth={1.6}
-                          className="category-row__chevron"
-                          aria-hidden="true"
-                        />
-                      </span>
-
-                      <span className="category-row__track" aria-hidden="true">
-                        <span
-                          className="category-row__fill"
-                          style={{ width: `${progress.ratio * 100}%` }}
-                        />
-                      </span>
-                    </a>
-                  </li>
-                );
-              })}
-            </ul>
-          </div>
-        ) : null}
+              <span className="category-tile__name">Une carte au hasard</span>
+            </button>
+          </li>
+        </ul>
       </section>
 
       <section className="overview" aria-labelledby="progress-heading">
-        <div className="overview__head">
-          <div>
-            <p className="eyebrow" id="progress-heading">
-              Progression
-            </p>
-            <p className="overview__count">
-              <strong className="tabular">{completed}</strong>
-              <span className="overview__of"> sur {TOTAL_QUESTIONS} questions terminées</span>
-            </p>
-          </div>
-
-          <a className="link-quiet" href="#/history">
-            Revoir mes réponses
-            <ArrowUpRight size={15} strokeWidth={1.7} aria-hidden="true" />
-          </a>
-        </div>
+        <p className="overview__line">
+          <span className="eyebrow" id="progress-heading">
+            Progression
+          </span>
+          <span className="overview__count">
+            <strong className="tabular">{completed}</strong>
+            <span className="overview__of"> sur {TOTAL_QUESTIONS} questions terminées</span>
+          </span>
+        </p>
 
         <ProgressBar value={completed} max={TOTAL_QUESTIONS} label="Progression globale" />
       </section>
