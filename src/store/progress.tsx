@@ -14,7 +14,6 @@ import {
   createEmptyState,
   resetProgress as resetProgressState,
   setPreference,
-  setHeroCategory as setHeroCategoryState,
   skipQuestion,
   touchSession as touchSessionState,
   uncompleteQuestion,
@@ -38,8 +37,6 @@ export interface ProgressActions {
   uncomplete(questionId: string): void;
   touchSession(categoryId: CategoryId, questionId: string): void;
   visitCategory(categoryId: CategoryId): void;
-  /** Remember the category the home hero opens. */
-  setHeroCategory(categoryId: CategoryId | null): void;
   setShuffle(value: boolean): void;
   setReplay(value: boolean): void;
   reset(): void;
@@ -133,10 +130,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
     setState((previous) => visitCategoryState(previous, categoryId));
   }, []);
 
-  const setHeroCategory = useCallback((categoryId: CategoryId | null) => {
-    setState((previous) => setHeroCategoryState(previous, categoryId));
-  }, []);
-
   const setShuffle = useCallback((value: boolean) => {
     setState((previous) => setPreference(previous, 'shuffle', value));
   }, []);
@@ -169,7 +162,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       uncomplete,
       touchSession,
       visitCategory,
-      setHeroCategory,
       setShuffle,
       setReplay,
       reset,
@@ -183,7 +175,6 @@ export function ProgressProvider({ children }: { children: ReactNode }) {
       uncomplete,
       touchSession,
       visitCategory,
-      setHeroCategory,
       setShuffle,
       setReplay,
       reset,
