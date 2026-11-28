@@ -1,0 +1,277 @@
+/* --------------------------------------------------------------------------
+   Banner, dialog, gate
+   -------------------------------------------------------------------------- */
+
+.app__banner {
+  width: 100%;
+  max-width: var(--max-page);
+  margin: 12px auto 0;
+  padding: 0 20px;
+}
+
+.banner {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 12px 14px;
+  border: 1px solid color-mix(in srgb, var(--accent) 20%, transparent);
+  border-radius: var(--radius-sm);
+  background: var(--accent-wash);
+  font-size: 12.5px;
+  line-height: 1.5;
+  color: var(--accent-deep);
+}
+
+.banner > svg {
+  flex: none;
+  margin-top: 1px;
+}
+
+.banner__text {
+  flex: 1;
+}
+
+.banner__link {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.banner__close {
+  display: grid;
+  flex: none;
+  place-items: center;
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  color: inherit;
+  opacity: 0.65;
+  transition: opacity 0.18s var(--ease);
+}
+
+.banner__close:hover {
+  opacity: 1;
+}
+
+.dialog {
+  width: 100%;
+  max-width: min(440px, calc(100vw - 32px));
+  margin: auto;
+  padding: 0;
+  border: 0;
+  background: transparent;
+}
+
+.dialog::backdrop {
+  background: rgba(38, 26, 17, 0.4);
+}
+
+.dialog__panel {
+  padding: 26px 24px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius-lg);
+  background: var(--surface);
+  box-shadow: 0 30px 80px -40px rgba(46, 28, 16, 0.45);
+}
+
+.dialog__title {
+  font-family: var(--font-serif);
+  font-size: 1.45rem;
+  font-weight: 400;
+  line-height: 1.25;
+  letter-spacing: -0.015em;
+  color: var(--ink);
+}
+
+.dialog__description {
+  margin-top: 10px;
+  font-size: 13.5px;
+  line-height: 1.55;
+  color: var(--muted);
+}
+
+.dialog__actions {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+  gap: 8px;
+  margin-top: 24px;
+}
+
+.gate {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-top: clamp(50px, 12vh, 110px);
+}
+
+.gate__mark {
+  margin-bottom: 26px;
+  color: var(--accent);
+}
+
+.gate .lede {
+  max-width: 50ch;
+}
+
+/* --------------------------------------------------------------------------
+   Footer
+   -------------------------------------------------------------------------- */
+
+.site-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px 20px;
+  width: 100%;
+  max-width: var(--max-page);
+  margin: 0 auto;
+  padding: 20px 20px calc(26px + var(--safe-bottom));
+  border-top: 1px solid var(--line);
+  font-size: 11.5px;
+  color: var(--faint);
+}
+
+.site-footer a {
+  transition: color 0.18s var(--ease);
+}
+
+.site-footer a:hover {
+  color: var(--ink);
+}
+
+/* --------------------------------------------------------------------------
+   Larger screens
+   -------------------------------------------------------------------------- */
+
+@media (min-width: 720px) {
+  .masthead {
+    padding-top: 22px;
+  }
+
+  .category-row {
+    grid-template-columns: 34px minmax(0, 1fr) auto;
+    gap: 16px;
+    padding: 13px 16px 15px;
+  }
+
+  .category-row__glyph {
+    width: 34px;
+    height: 34px;
+  }
+
+  .category-row__desc {
+    -webkit-line-clamp: 1;
+  }
+
+  .question-card {
+    min-height: clamp(340px, 48vh, 450px);
+  }
+
+  .session {
+    padding-top: 14px;
+  }
+
+  .session-hint {
+    display: block;
+  }
+
+  .chips {
+    flex-wrap: wrap;
+    overflow: visible;
+    margin: 18px 0 0;
+    padding: 4px 0 8px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page {
+    padding-bottom: 84px;
+  }
+
+  .display {
+    font-size: 3.2rem;
+  }
+
+  .question-card {
+    padding: 48px 50px;
+  }
+
+  .card-question {
+    font-size: 2.35rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .page {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .masthead {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .app__banner {
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .chips {
+    margin-right: -16px;
+    margin-left: -16px;
+    padding-right: 16px;
+    padding-left: 16px;
+  }
+
+  .btn {
+    padding: 0 16px;
+    font-size: 14px;
+  }
+
+  .category-row {
+    gap: 10px;
+    padding-right: 12px;
+    padding-left: 12px;
+  }
+
+  .category-row__desc {
+    font-size: 11.5px;
+  }
+
+  .category-row__track {
+    right: 12px;
+    left: 12px;
+  }
+
+  .session {
+    padding-top: 2px;
+  }
+
+  .question-card {
+    padding: 22px 20px;
+  }
+
+  .card-question {
+    font-size: 1.42rem;
+    line-height: 1.34;
+  }
+
+  .session-decide .btn--quiet,
+  .session-decide .btn--primary {
+    min-height: 50px;
+  }
+
+  .stats {
+    gap: 8px;
+  }
+
+  .stat {
+    padding: 12px 11px;
+  }
+
+  .stat__value {
+    font-size: 1.4rem;
+  }
+}
