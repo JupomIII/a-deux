@@ -1,10 +1,9 @@
-import { useEffect, type CSSProperties } from 'react';
-import { ArrowRight, ArrowUpRight, ChevronRight, Shuffle } from 'lucide-react';
+import { useState, type CSSProperties } from 'react';
+import { ArrowRight, ArrowUpRight, ChevronDown, ChevronRight, Shuffle } from 'lucide-react';
 import { CATEGORIES, CATEGORY_BY_ID, QUESTION_BY_ID, TOTAL_QUESTIONS } from '../data/categories';
 import { progressForCategory } from '../lib/progress';
-import { heroTarget, overallCompleted, suggestedCategory } from '../lib/overview';
+import { overallCompleted, suggestedCategory } from '../lib/overview';
 import { categoryPath, navigate, sessionPath } from '../lib/router';
-import { plural } from '../lib/format';
 import { useProgress } from '../store/progress';
 import { CategoryGlyph } from '../components/CategoryGlyph';
 import { ProgressBar } from '../components/ProgressBar';
@@ -18,9 +17,10 @@ const RESUME_COPY: Record<ResumeState, { label: string; cta: string }> = {
 };
 
 export function HomePage() {
-  const { state, actions } = useProgress();
+  const { state } = useProgress();
   const completed = overallCompleted(state);
   const suggestion = suggestedCategory(state);
+  const [categoriesOpen, setCategoriesOpen] = useState(false);
 
   const lastSession = state.lastSession;
   const resumeCategory = lastSession ? CATEGORY_BY_ID.get(lastSession.categoryId) : undefined;
@@ -35,38 +35,6 @@ export function HomePage() {
       : null;
 
   const resumeCategoryId = lastSession?.categoryId ?? null;
-  const nextCategory = heroTarget(state, resumeCategoryId);
-  const nextCategoryId = nextCategory?.id ?? null;
-  const nextProgress = nextCategory ? progressForCategory(state, nextCategory) : null;
-  const allDone = CATEGORIES.every(
-    (category) => progressForCategory(state, category).remaining === 0,
-  );
-
-  /**
-   * Two entry points, two roles: the resume card reopens the exact card you left,
-   * the hero opens the next category to explore — never the same session. The
-   * hero's category is remembered until it is finished, so it stays put
-   * instead of bouncing between two themes.
-   */
-  useEffect(() => {
-    if (nextCategoryId && nextCategoryId !== state.heroCategory) {
-      actions.setHeroCategory(nextCategoryId);
-    }
-  }, [nextCategoryId, state.heroCategory, actions]);
-
-  const heroHref = nextCategory ? sessionPath(nextCategory.id) : categoryPath(suggestion.id);
-  const heroLabel = nextCategory
-    ? completed === 0
-      ? 'Commencer'
-      : 'Une autre catégorie'
-    : allDone
-      ? 'Revoir une catégorie'
-      : 'Continuer la catégorie';
-  const heroNote =
-    nextCategory && nextProgress
-      ? `${nextCategory.name} · ${plural(nextProgress.remaining, 'carte')} à poser`
-      : `${CATEGORIES.length} catégories · ${plural(TOTAL_QUESTIONS, 'question')}`;
-  const markedCategoryId = nextCategory?.id ?? suggestion.id;
 
   /**
    * Nine categories is a lot to choose from when you just want to talk.
@@ -91,30 +59,6 @@ export function HomePage() {
 
   return (
     <div className="home">
-      <section className="hero">
-        <p className="eyebrow">Cartes à deux</p>
-        <h1 className="display">
-          <span>Des questions</span>
-          <span>pour se retrouver.</span>
-        </h1>
-        <p className="lede">
-          Un moment sans écran. Une carte, une conversation, et parfois ce qu’on n’avait pas encore
-          dit.
-        </p>
-
-        <div className="hero__actions">
-          <a className="btn btn--primary" href={heroHref}>
-            {heroLabel}
-            <ArrowRight size={16} strokeWidth={1.8} aria-hidden="true" />
-          </a>
-          <a className="link-quiet" href="#/history">
-            Voir l’historique
-          </a>
-        </div>
-
-        <p className="hero__meta">{heroNote}</p>
-      </section>
-
       {resumeState && lastSession && resumeCategory && resumeQuestion && resumeProgress ? (
         <a
           className="resume-card"
@@ -158,71 +102,94 @@ export function HomePage() {
       ) : null}
 
       <section className="section" aria-labelledby="categories-heading">
-        <div className="section__head">
-          <h2 className="section__title" id="categories-heading">
-            Catégories
-          </h2>
-          <button type="button" className="section__action" onClick={startRandom}>
-            <Shuffle size={14} strokeWidth={1.7} aria-hidden="true" />
-            Une carte au hasard
+        <h2 className="section__title" id="categories-heading">
+          <button
+            type="button"
+            className="section__toggle"
+            aria-expanded={categoriesOpen}
+            aria-controls="categories-panel"
+            onClick={() => setCategoriesOpen((open) => !open)}
+          >
+            <span>Catégories</span>
+            <span className="section__toggle-end">
+              <span className="section__toggle-meta">
+                {categoriesOpen ? 'Refermer' : `${CATEGORIES.length} thèmes`}
+              </span>
+              <ChevronDown
+                size={16}
+                strokeWidth={1.7}
+                className="section__chevron"
+                aria-hidden="true"
+              />
+            </span>
           </button>
-        </div>
+        </h2>
 
-        <p className="section__hint">
-          Choisissez un thème, ou laissez le hasard tirer une carte.
-        </p>
+        {categoriesOpen ? (
+          <div className="section__panel" id="categories-panel">
+            <div className="section__head">
+              <p className="section__hint">
+                Choisissez un thème, ou laissez le hasard tirer une carte.
+              </p>
+              <button type="button" className="section__action" onClick={startRandom}>
+                <Shuffle size={14} strokeWidth={1.7} aria-hidden="true" />
+                Une carte au hasard
+              </button>
+            </div>
 
-        <ul className="category-list">
-          {CATEGORIES.map((category) => {
-            const progress = progressForCategory(state, category);
-            const done = progress.total > 0 && progress.completed === progress.total;
+            <ul className="category-list">
+              {CATEGORIES.map((category) => {
+                const progress = progressForCategory(state, category);
+                const done = progress.total > 0 && progress.completed === progress.total;
 
-            return (
-              <li key={category.id}>
-                <a
-                  className="category-row"
-                  href={categoryPath(category.id)}
-                  style={{ '--cat': category.accent } as CSSProperties}
-                >
-                  <span className="category-row__glyph" aria-hidden="true">
-                    <CategoryGlyph icon={category.icon} size={16} />
-                  </span>
+                return (
+                  <li key={category.id}>
+                    <a
+                      className="category-row"
+                      href={categoryPath(category.id)}
+                      style={{ '--cat': category.accent } as CSSProperties}
+                    >
+                      <span className="category-row__glyph" aria-hidden="true">
+                        <CategoryGlyph icon={category.icon} size={16} />
+                      </span>
 
-                  <span className="category-row__body">
-                    <span className="category-row__name">
-                      {category.name}
-                      {done ? <span className="tiny-label">Terminée</span> : null}
-                      {!done && category.id === markedCategoryId ? (
-                        <span className="tiny-label">Par ici</span>
-                      ) : null}
-                    </span>
-                    <span className="category-row__desc">{category.description}</span>
-                  </span>
+                      <span className="category-row__body">
+                        <span className="category-row__name">
+                          {category.name}
+                          {done ? <span className="tiny-label">Terminée</span> : null}
+                          {!done && category.id === suggestion.id ? (
+                            <span className="tiny-label">Par ici</span>
+                          ) : null}
+                        </span>
+                        <span className="category-row__desc">{category.description}</span>
+                      </span>
 
-                  <span className="category-row__meta">
-                    <span className="category-row__count">
-                      <span className="tabular">{progress.completed}</span>
-                      <span className="category-row__total">/{progress.total}</span>
-                    </span>
-                    <ChevronRight
-                      size={15}
-                      strokeWidth={1.6}
-                      className="category-row__chevron"
-                      aria-hidden="true"
-                    />
-                  </span>
+                      <span className="category-row__meta">
+                        <span className="category-row__count">
+                          <span className="tabular">{progress.completed}</span>
+                          <span className="category-row__total">/{progress.total}</span>
+                        </span>
+                        <ChevronRight
+                          size={15}
+                          strokeWidth={1.6}
+                          className="category-row__chevron"
+                          aria-hidden="true"
+                        />
+                      </span>
 
-                  <span className="category-row__track" aria-hidden="true">
-                    <span
-                      className="category-row__fill"
-                      style={{ width: `${progress.ratio * 100}%` }}
-                    />
-                  </span>
-                </a>
-              </li>
-            );
-          })}
-        </ul>
+                      <span className="category-row__track" aria-hidden="true">
+                        <span
+                          className="category-row__fill"
+                          style={{ width: `${progress.ratio * 100}%` }}
+                        />
+                      </span>
+                    </a>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        ) : null}
       </section>
 
       <section className="overview" aria-labelledby="progress-heading">
