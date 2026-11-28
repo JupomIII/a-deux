@@ -1,14 +1,4 @@
-export const CATEGORY_IDS = [
-  'decouverte',
-  'souvenirs',
-  'relation',
-  'profondeur',
-  'avenir',
-  'intimite',
-  'leger',
-  'hypothetiques',
-  'reflexion',
-] as const;
+export const CATEGORY_IDS = ['commencer', 'famille', 'vous', 'relation', 'intimite'] as const;
 
 export type CategoryId = (typeof CATEGORY_IDS)[number];
 
@@ -16,7 +6,7 @@ export function isCategoryId(value: unknown): value is CategoryId {
   return typeof value === 'string' && (CATEGORY_IDS as readonly string[]).includes(value);
 }
 
-export type CategoryIcon = 'compass' | 'sun' | 'heart' | 'waves' | 'sprout' | 'flame' | 'wind' | 'route' | 'feather';
+export type CategoryIcon = 'compass' | 'sun' | 'waves' | 'heart' | 'flame';
 
 export interface CategoryMeta {
   id: CategoryId;

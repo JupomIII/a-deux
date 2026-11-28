@@ -2,16 +2,24 @@ import { describe, expect, it } from 'vitest';
 import { ALL_QUESTIONS, CATEGORIES, TOTAL_QUESTIONS } from './categories';
 import { CATEGORY_IDS } from './types';
 
+const EXPECTED_SIZES: Record<string, number> = {
+  commencer: 28,
+  famille: 18,
+  vous: 71,
+  relation: 35,
+  intimite: 17,
+};
+
 describe('question library', () => {
   it('has every category, in order', () => {
     expect(CATEGORIES.map((category) => category.id)).toEqual([...CATEGORY_IDS]);
   });
 
-  it('has at least thirty questions per category', () => {
+  it('carries the whole imported list', () => {
     for (const category of CATEGORIES) {
-      expect(category.questions.length, category.id).toBeGreaterThanOrEqual(30);
+      expect(category.questions.length, category.id).toBe(EXPECTED_SIZES[category.id]);
     }
-    expect(TOTAL_QUESTIONS).toBeGreaterThanOrEqual(270);
+    expect(TOTAL_QUESTIONS).toBe(169);
   });
 
   it('numbers questions from one, continuously', () => {

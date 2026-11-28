@@ -1,0 +1,21 @@
+/** Catégorie « Famille & enfance » : l’enfance, les traditions, ceux qui vous ont construits. */
+export const famille: string[] = [
+  'Que faisiez-vous habituellement le samedi, enfant ?',
+  'Quel membre de votre famille aimez-vous le moins ? Pourquoi ?',
+  'Comment votre famille a-t-elle façonné qui vous êtes ?',
+  'Quelle règle non écrite régissait votre famille, sans que personne ne l’ait jamais formulée à voix haute ?',
+  'Si vous pouviez changer une chose dans votre façon de grandir, ce serait quoi ?',
+  'Quelle tradition familiale de votre enfance gardez-vous en mémoire ?',
+  'Quel est votre plus beau souvenir de Noël d’enfance ?',
+  'Quel est votre plus ancien souvenir de fierté envers vous-même ?',
+  'Quel est votre meilleur souvenir d’anniversaire ?',
+  'Quel était votre jouet préféré, enfant ?',
+  'Qu’est-ce que votre famille croyait ou pratiquait, et que vous avez compris plus tard n’était pas universel ?',
+  'Préféreriez-vous vivre à la place de vos arrière-grands-parents ou de vos arrière-petits-enfants ?',
+  'Y a-t-il eu un moment, enfant, où vous avez réalisé que vos parents n’étaient que… des gens ? Qu’est-ce qui l’a déclenché ?',
+  'Sur quels points ressemblez-vous à vos parents ? Et en quoi êtes-vous différents ?',
+  'Comment votre famille réglait-elle les conflits ?',
+  'Qu’aimeriez-vous le plus savoir au sujet de votre ou de vos parents ?',
+  'À part un parent, qui vous a inspiré pendant votre enfance ?',
+  'Que diriez-vous à vos 16 ans ?',
+];
