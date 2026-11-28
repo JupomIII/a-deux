@@ -69,26 +69,26 @@ describe('progress reducers', () => {
   });
 
   it('tracks the last session without duplicating updates', () => {
-    const state = touchSession(createEmptyState(), 'decouverte', first.id, '2026-01-02T10:00:00.000Z');
+    const state = touchSession(createEmptyState(), category.id, first.id, '2026-01-02T10:00:00.000Z');
     expect(state.lastSession).toEqual({
-      categoryId: 'decouverte',
+      categoryId: category.id,
       questionId: first.id,
       updatedAt: '2026-01-02T10:00:00.000Z',
     });
-    expect(touchSession(state, 'decouverte', first.id, '2027-01-01T00:00:00.000Z')).toBe(state);
+    expect(touchSession(state, category.id, first.id, '2027-01-01T00:00:00.000Z')).toBe(state);
   });
 
   it('keeps preferences and the last category when resetting', () => {
     let state = setPreference(createEmptyState(), 'shuffle', true);
     state = completeQuestion(state, first.id, '2026-01-02T10:00:00.000Z');
     state = touchSession(state, category.id, first.id, '2026-01-02T10:00:00.000Z');
-    state = visitCategory(state, 'avenir');
+    state = visitCategory(state, 'famille');
 
     const reset = resetProgress(state);
     expect(reset.completed).toEqual({});
     expect(reset.skipped).toEqual({});
     expect(reset.lastSession).toBeNull();
-    expect(reset.lastCategory).toBe('avenir');
+    expect(reset.lastCategory).toBe('famille');
     expect(reset.preferences.shuffle).toBe(true);
   });
 

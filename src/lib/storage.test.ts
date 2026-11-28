@@ -33,7 +33,7 @@ class MemoryStorage implements StorageLike {
 
 function completedState(): ProgressState {
   const state = completeQuestion(createEmptyState(), 'q-abc', '2026-05-04T12:00:00.000Z');
-  return { ...state, lastCategory: 'decouverte' };
+  return { ...state, lastCategory: 'commencer' };
 }
 
 describe('storage', () => {
@@ -46,7 +46,7 @@ describe('storage', () => {
 
     expect(loaded.status).toBe('ok');
     expect(loaded.state.completed).toEqual(state.completed);
-    expect(loaded.state.lastCategory).toBe('decouverte');
+    expect(loaded.state.lastCategory).toBe('commencer');
   });
 
   it('reports unavailable storage without throwing', () => {
