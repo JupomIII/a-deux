@@ -5,6 +5,8 @@ import './styles/tokens.css';
 import './styles/base.css';
 import './styles/app.css';
 import './styles/menu.css';
+import './styles/pages.css';
+import './styles/global.css';
 
 const container = document.getElementById('root');
 if (!container) throw new Error('Élément racine introuvable.');
